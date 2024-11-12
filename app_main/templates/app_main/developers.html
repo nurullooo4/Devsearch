@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<main class="home">
+    <section class="hero-section text-center">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>CONNECT WITH <span>DEVELOPERS</span></h2>
+                <h2>FROM AROUND THE WORLD</h2>
+            </div>
+
+            <div class="hero-section__search">
+                <form class="form" action="" method="get">
+                    <div class="form__field">
+                        <label for="formInput#search">Search Developers</label>
+                        <input
+                            class="input input--text"
+                            id="formInput#search"
+                            type="text"
+                            name="query"
+                            placeholder="Search by developer name"
+                            value="{{ request.GET.query }}"
+                        />
+                    </div>
+
+                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Result: DevList -->
+    <section class="devlist">
+        <div class="container">
+            <div class="grid grid--three">
+                {% for account in developers %}
+                <div class="column card">
+                    <div class="dev">
+                        <a href="{% url 'profile' account.id %}" class="card__body">
+                            <div class="dev__profile">
+                                <img class="avatar avatar--md" src="{{ account.profile_image.url }}" />
+                                <div class="dev__meta">
+                                    <h3>{{ account.fullname }}</h3>
+                                    <h5>{{ account.occupation }}</h5>
+                                </div>
+                            </div>
+                            <p class="dev__info">{{ account.bio|truncatechars:100|linebreaksbr }}</p>
+                            <div class="dev__skills">
+                                <span class="tag tag--pill tag--main"><small>Python</small></span>
+                                <span class="tag tag--pill tag--main"><small>Django</small></span>
+                                <span class="tag tag--pill tag--main"><small>JavaScript</small></span>
+                                <span class="tag tag--pill tag--main"><small>ReactJS</small></span>
+                                <span class="tag tag--pill tag--main"><small>MySQL</small></span>
+                                <span class="tag tag--pill tag--main"><small>PostgreSQL</small></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if developers|length == 0 %}
+                    <p>No developers found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <ul class="container">
+            <li>
+                <a href="{% if not page_obj.has_previous %} #! {% else %} ?query={{ request.GET.query }}&page={{ page_obj.previous_page_number }} {% endif %}" class="btn {% if not page_obj.has_previous %} btn--disabled {% endif %}">&#10094; Prev</a>
+            </li>
+            {% for page in custom_range %}
+            <li>
+                <a href="{% if page == page_obj.number %}#!{% else %} ?query={{ request.GET.query }}&page={{ page }} {% endif %}" class="btn {% if page == page_obj.number %} btn--sub {% endif %}">{{ page }}</a>
+            </li>
+            {% endfor %}
+            <li>
+                <a href="{% if not page_obj.has_next %} #! {% else %} ?query={{ request.GET.query }}&page={{ page_obj.next_page_number }} {% endif %}" class="btn {% if not page_obj.has_next %} btn--disabled {% endif %}">Next &#10095;</a>
+            </li>
+        </ul>
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+    </div>
+
+</main>
+{% endblock content %}

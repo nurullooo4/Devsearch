@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<main class="inbox my-xl">
+    <div class="content-box">
+        <h3 class="inbox__title">New Messages (<span>{{ unread_messages|length }}</span>)</h3>
+
+        <!-- O'qilmagan xabarlar -->
+        <ul class="messages messages--unread">
+            {% for message in unread_messages %}
+                <li class="message">
+                    <a href="{% url 'send_message' message.id %}">
+                        <span class="message__author">{{ message.sender.fullname }}</span>
+                        <span class="message__subject">{{ message.subject }}</span>
+                        <span class="message__date">{{ message.created_at|date:"F j, Y, g:i A" }}</span>
+                    </a>
+                </li>
+            {% empty %}
+                <li>No unread messages.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- O'qilgan xabarlar -->
+        <h4>Read Messages</h4>
+        <ul class="messages messages--read">
+            {% for message in read_messages %}
+                <li class="message">
+                    <a href="{% url 'send_message' message.id %}">
+                        <span class="message__author">{{ message.sender.fullname }}</span>
+                        <span class="message__subject">{{ message.subject }}</span>
+                        <span class="message__date">{{ message.created_at|date:"F j, Y, g:i A" }}</span>
+                    </a>
+                </li>
+            {% empty %}
+                <li>No read messages.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+{% endblock content %}
