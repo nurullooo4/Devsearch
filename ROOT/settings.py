@@ -16,7 +16,6 @@ import os
 
 from django.urls import reverse_lazy
 
-
 # from django.utils.
 
 env = Env()
@@ -25,18 +24,16 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =env.str('DJANGO_SECRET_KEY')
+SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -96,7 +93,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ROOT.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -107,7 +103,7 @@ WSGI_APPLICATION = 'ROOT.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default':{
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env.str('DB_NAME'),
         'USER': env.str('DB_USER'),
@@ -116,7 +112,6 @@ DATABASES = {
         'HOST': env.str('DB_HOST'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -163,7 +157,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-
 STATICFILES_DIRS = [
     BASE_DIR / 'staticfiles',
 ]
@@ -174,8 +167,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'app_users.User'
 
-LOGIN_REDIRECT_URL =reverse_lazy('developers')
-LOGOUT_REDIRECT_URL =reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('developers')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 # Social oauth
 AUTHENTICATION_BACKENDS = [
